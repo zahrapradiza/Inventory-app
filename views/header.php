@@ -1,5 +1,11 @@
 <?php
 // views/header.php
+
+// 1. Pastikan session dimulai sebelum memanggil helper atau output HTML
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once __DIR__ . '/../helpers/auth.php';
 
 // Lindungi halaman, tendang ke halaman login jika belum login
@@ -33,17 +39,21 @@ requireLogin();
 </head>
 <body>
     <nav class="navbar">
+        <?php
+        // Sesuaikan dengan nama folder buatanmu persis: Inventory-app
+        $baseURL = '/Inventory-app/public'; 
+        ?>
         <div class="nav-brand">📦 InventoryApp</div>
         <div class="nav-menu">
-            <a href="/inventory-app/public/dashboard.php">Dashboard</a>
-            <a href="/inventory-app/public/products/index.php">Data Produk</a>
-            <a href="/inventory-app/public/stock/index.php">Transaksi Stok</a>
+            <a href="<?= $baseURL ?>/dashboard.php">Dashboard</a>
+            <a href="<?= $baseURL ?>/products/index.php">Data Produk</a>
+            <a href="<?= $baseURL ?>/stock/index.php">Transaksi Stok</a>
             
             <span style="margin: 0 20px; border-left: 1px solid #3b82f6; padding-left: 20px;">
-                Halo, <strong><?= htmlspecialchars($_SESSION['user']['username']) ?></strong> 
-                <span class="badge-role"><?= htmlspecialchars($_SESSION['user']['role']) ?></span>
+                Halo, <strong><?= htmlspecialchars($_SESSION['user']['username'] ?? 'User') ?></strong> 
+                <span class="badge-role"><?= htmlspecialchars($_SESSION['user']['role'] ?? '') ?></span>
             </span>
-            <a href="/inventory-app/public/logout.php" style="background-color: #dc2626; font-weight: bold;">Logout</a>
+            <a href="<?= $baseURL ?>/logout.php" style="background-color: #dc2626; font-weight: bold;">Logout</a>
         </div>
     </nav>
     <div class="container">
